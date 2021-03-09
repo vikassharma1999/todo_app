@@ -1,0 +1,175 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link type="text/css" href="style.css">
+	<title>Todo App</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style type="text/css">
+		body{
+	background-color: black;
+}
+header{
+	background-color: #161b22;
+	color: antiquewhite;
+	padding: 10px;
+	width: 100%;
+	margin-top:-8px;
+	margin-left: -8px;
+	display: flex;
+	justify-content: space-between;
+}
+a{
+	color:cornsilk;
+	text-decoration: none;
+}
+.main{
+	width: 400px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	margin:auto;
+}
+h1{
+	text-align: center;
+	color: antiquewhite;
+}
+form{
+	background-color: #161b22;
+	padding: 15px;
+	display:flex;
+	flex-direction:column;
+}
+p{
+	color:red;
+}
+input[type="text"]{
+	width:310px;
+	height: 30px;
+	outline: 0;
+	border: none;
+	font-size: 1.5em;
+	background:#161b22;
+	color: #58a6ff;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+input[type="email"]{
+	width:310px;
+	height: 30px;
+	outline: 0;
+	border: none;
+	font-size: 1.5em;
+	background:#161b22;
+	color: #58a6ff;
+	padding-top:10px;
+	padding-bottom:10px;
+}
+input[type="password"]{
+	width:310px;
+	height: 30px;
+	outline: 0;
+	border: none;
+	font-size: 1.5em;
+	background:#161b22;
+	color: #58a6ff;
+	padding-top:10px;
+	padding-bottom:30px;
+}
+
+button{
+	font-size: 1.5em;
+	color: #58a6ff;
+	background:#161b22;
+	outline: 0;
+	border: none;
+	width: 50px;
+}
+
+.tasksBoard{
+	background-color: #161b22;
+	margin-top: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 40px;
+	color: #58a6ff;
+	/*display: none;*/
+}
+ul{
+	list-style: none;
+}
+
+li{
+	border-bottom: 1px solid #53BDFF;
+	padding-bottom:15px;
+	padding-top: 15px;
+	font-size: 1.3em;
+	/*color: #2f4f4f;*/
+}
+span{
+	float: right;
+}
+
+a{
+	float: right;
+	text-align: right;
+	font-size: 1.2em;
+	cursor: pointer;
+}
+
+.delete{
+	/*background-color: #161b22;*/
+	padding: 0px 3px 0px 3px;
+	cursor: pointer;
+}
+
+@media (max-width:500px){
+	.main{
+		margin: auto;
+		width: 100%;
+	}
+	input[type="text"]{
+		width: 80%;
+	}
+	button{
+		width: 10%;
+	}
+}
+	</style>
+
+</head>
+
+<body>
+
+<header>
+		<div>
+			Todo App
+		</div>
+	</header>
+
+<div class="main">
+		<h1>Signup</h1>
+<% if(errors!="no") {%>
+ <p>*<%=errors[0].msg%></p>
+
+<%}%>
+		<form class="" action="/auth/signup" method="post">
+			<input type="hidden" name="_csrf" value="<%=csrfToken%>"/>
+			<input type="text" id="name" name="name" required="true" placeholder="Enter Name" >
+			<input type="email" id="email" name="email" required="true" placeholder="Enter Email">
+			<input type="password" id="password" name="password" required="true" placeholder="Enter password">
+			<button type="submit"><strong>Signup</strong></button>
+			<a href="/auth/login">Login</a>
+		</form>
+	
+
+			
+		
+	</div>
+
+
+</body>
+</html>

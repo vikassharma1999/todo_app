@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<link type="text/css" href="style.css">
+	<title>Todo App</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<style type="text/css">
+		body{
+	background-color: black;
+}
+header{
+	background-color: #161b22;
+	color: antiquewhite;
+	padding: 10px;
+	width: 100%;
+	margin-top:-8px;
+	margin-left: -8px;
+	display: flex;
+	justify-content: space-between;
+}
+a{
+	color:cornsilk;
+	text-decoration: none;
+}
+.main{
+	width: 400px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	margin:auto;
+}
+h1{
+	text-align: center;
+	color: antiquewhite;
+}
+form{
+	background-color: #161b22;
+	padding: 15px;
+}
+
+input[type="text"]{
+	width:310px;
+	height: 30px;
+	outline: 0;
+	border: none;
+	font-size: 1.5em;
+	background:#161b22;
+	color: #58a6ff;
+}
+
+button{
+	font-size: 1.5em;
+	color: #58a6ff;
+	background:#161b22;
+	outline: 0;
+	border: none;
+	width: 50px;
+}
+
+.tasksBoard{
+	background-color: #161b22;
+	margin-top: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	padding-right: 40px;
+	color: #58a6ff;
+	/*display: none;*/
+}
+ul{
+	list-style: none;
+}
+
+li{
+	border-bottom: 1px solid #53BDFF;
+	padding-bottom:15px;
+	padding-top: 15px;
+	font-size: 1.3em;
+	/*color: #2f4f4f;*/
+}
+span{
+	float: right;
+}
+
+a{
+	float: right;
+	text-align: right;
+	font-size: 1.2em;
+	cursor: pointer;
+}
+
+.delete{
+	/*background-color: #161b22;*/
+	padding: 0px 3px 0px 3px;
+	cursor: pointer;
+}
+
+@media (max-width:500px){
+	.main{
+		margin: auto;
+		width: 100%;
+	}
+	input[type="text"]{
+		width: 80%;
+	}
+	button{
+		width: 10%;
+	}
+}
+	</style>
+
+</head>
+<body>
+ 	<header>
+		<div>
+			Todo App
+		</div>
+		<a href="/auth/logout">Logout</a>
+	</header>
+	<div class="main">
+		<h1>TO-DO LIST</h1>
+		<form class="" action="/task/create" method="post">
+			<input type="hidden" name="_csrf" value="<%=csrfToken%>"/>
+			<input type="text" name="title" placeholder="new task" id="title" required="true">
+			<button type="submit"><strong>ADD</strong></button>
+			
+		</form>
+		
+		<% if(data!=null && data.length>0){%>
+		<div class="tasksBoard">
+		<ul>
+		<% for(var i=0;i<data.length;i++){%>
+		<li><input type="checkbox"><label><%=data[i].title%></label><span class="delete" id=<%=data[i]._id%>><i class="fa fa-trash"></i></span></li>
+		<% } %>
+		</ul>
+			<a id="clear">Clear All</a>
+		</div>
+		<%}%>
+
+			
+			
+		
+	</div>
+	<script >
+		document.getElementById('clear').addEventListener('click',function(){
+			fetch('http://localhost:4000/task/removeAll')
+  				.then(response => window.location.reload())
+  				// .then(data => console.log(data));
+  		})
+  		document.querySelector('ul').addEventListener('click',deleteOrTick);
+
+  		function deleteTask(e,taskId){
+  			console.log(taskId)
+  			fetch(`http://localhost:4000/task/delete/${taskId}`)
+  				.then(response=>window.location.reload())
+  		}
+
+		function deleteOrTick(e){
+			if(e.target.parentElement.className == 'delete'){
+				deleteTask(e,e.target.parentElement.id);
+			}
+			else{
+				console.log(e.target.checked)
+			if(e.target.checked)
+			{
+				e.target.parentElement.childNodes[1].style.textDecoration = "line-through"
+				e.target.parentElement.childNodes[1].style.color = "#ff0000";
+			}
+			else{
+				e.target.parentElement.childNodes[1].style.textDecoration = "none"
+				e.target.parentElement.childNodes[1].style.color = "#58a6ff";
+			}
+		}}
+
+	</script>
+
+	<script type="text/javascript">
+		function idleTimer() {
+		    var t;
+		    window.onload = resetTimer;
+		    window.onmousemove = resetTimer; // catches mouse movements
+		    // console.log("move:",window.onmousemove);
+		    window.onmousedown = resetTimer; // catches mouse movements
+		    // console.log("Down:",window.onmousedown)
+		    window.onclick = resetTimer;     // catches mouse clicks
+		    // console.log("click:",window.onclick)
+		    window.onscroll = resetTimer;    // catches scrolling
+		    // console.log("scrolling:",window.onscroll)
+		    window.onkeypress = resetTimer;  //catches keyboard actions
+		    // console.log("onkeypress:",window.onkeypress)
+		    function logout() {
+		    	// console.log("Inside logout:")
+		        window.location.href = '/auth/logout';  //Adapt to actual logout script
+		    }
+
+		  
+
+		   function resetTimer() {
+		        clearTimeout(t);
+		        t = setTimeout(logout, 1000*60*2);  // time is in milliseconds (1000 is 1 second)
+		       
+		    }
+		}
+		idleTimer();
+</script>
+</body>
+</html>

